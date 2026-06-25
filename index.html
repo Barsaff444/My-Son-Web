@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carta Musical</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body { text-align: center; font-family: 'Segoe UI', sans-serif; background-color: #fdf2f2; padding: 20px; }
+        #carta { width: 80%; max-width: 500px; cursor: pointer; display: block; margin: auto; }
+        #contenido { display: none; margin-top: 20px; }
+        .carta-container { position: relative; display: inline-block; width: 95%; max-width: 600px; }
+        .carta-container img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        
+        .karaoke-box { 
+            position: absolute; top: 12%; bottom: 10%; width: 80%; left: 10%; 
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        #contenedor-texto {
+            width: 100%; text-align: center; margin-top: 15px;
+            font-size: 15px; line-height: 1.4;
+            flex-grow: 1; overflow-y: auto;
+        }
+
+        .linea-ing { font-weight: bold; color: #4a3728; display: block; margin-top: 5px; }
+        .linea-esp { color: #696969; font-size: 13px; display: block; }
+
+        audio {
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(5px); 
+    border: 1px solid rgba(139, 94, 60, 0.3); 
+    border-radius: 20px; 
+    padding: 5px;
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+        .btn-cerrar { background: rgba(139, 94, 60, 0.8); color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1 id="titulo">❤️ Feliz Aniversario Amor 2 años y 8 meses ❤️</h1>
+    <div id="mensaje-sorpresa" style="display:none; position:fixed; top:15%; width:100%; text-align:center; font-size:55px; font-weight:bold; z-index:999; color: #ff007f; text-shadow: 2px 2px 10px rgba(0,0,0,0.2);">
+      ❤️ Te Amo Brigith ❤️
+</div>
+    <img id="carta" src="carta.png" onclick="abrirCarta()">
+
+    <div id="contenido">
+        <div class="carta-container">
+            <img src="Fondo_de_Carta.png" alt="Carta Abierta">
+            <div class="karaoke-box">
+                <audio controls id="audio" style="width: 100%;"><source src="Days Move Fast.mp3" type="audio/mpeg"></audio>
+                <div id="contenedor-texto"></div>
+                <button class="btn-cerrar" onclick="cerrarCarta()">Cerrar Carta</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const cont = document.getElementById('contenedor-texto');
+
+        const letras = [
+    { t: 0, ing: "🎶🎶🎶🎶", esp: "" },
+    { t: 8, ing: "Hmmmmm🎶", esp: "" },
+    { t: 15, ing: "Sitting in the back", esp: "Sentados atrás" },
+    { t: 19, ing: "Just us on the grass", esp: "Solo nosotros en el pasto" },
+    { t: 23, ing: "While my head's gone off the track", esp: "Mientras mi cabeza se sale de control" },
+    { t: 26, ing: "Laying still on the grass", esp: "Tumbado quieto en el pasto" },
+    { t: 30, ing: "When the days move so damn fast", esp: "Cuando los días pasan tan rápido?" },
+    { t: 32, ing: "Ooooooh..Ooooh..🎶", esp: "" },
+    { t: 38, ing: "Aaaah...Aaah..🎶", esp: "" },
+    { t: 49, ing: "🎶🎶🎶🎶🎶🎶", esp: "" },
+    { t: 80, ing: "Hmmmmm🎶", esp: "" }, // Ajustado a 1:20 (80s)
+    { t: 94, ing: "Sitting in the back", esp: "Sentados atrás" },
+    { t: 98, ing: "Just us on the grass", esp: "Solo nosotros en el pasto" },
+    { t: 103, ing: "While my head's gone off the track", esp: "Mientras mi cabeza se sale de control" },
+    { t: 107, ing: "Laying still on the grass", esp: "Tumbado quieto en el pasto" },
+    { t: 109, ing: "When the days move so damn fast", esp: "Cuando los días pasan tan rápido?" },
+    { t: 115, ing: "Hmmmmm 🎶", esp: "" },
+    { t: 132, ing: "When the days move so damn fast", esp: "Cuando los días pasan tan rápido?" }, // Ajustado para que aparezca
+    { t: 137, ing: "Yeah, the days move...", esp: "Si los dias pasan" }, // Ajustado para que aparezca
+    { t: 140, ing: "Hmmmmm 🎶", esp: "" }, // Ajustado para que aparezca
+    { t: 150, ing: "🎶🎶🎶🎶🎶🎶", esp: "" }
+];
+
+         audio.addEventListener('timeupdate', () => {
+    const actual = audio.currentTime;
+
+    const lineasPasadas = letras.filter(l => actual >= l.t);
+
+    cont.innerHTML = lineasPasadas.map(l => `
+        <div class="linea-container" style="margin-bottom: 15px;">
+            <span class="linea-ing" style="font-weight: bold; color: #4a3728; display: block;">${l.ing}</span>
+            <span class="linea-esp" style="font-size: 13px; color: #696969; display: block;">${l.esp}</span>
+        </div>
+    `).join('');
+
+    cont.scrollTop = cont.scrollHeight;
+});
+
+      function abrirCarta() {
+    document.getElementById('carta').style.display = 'none';
+    document.getElementById('contenido').style.display = 'block';
+    const mensaje = document.getElementById('mensaje-sorpresa');
+    mensaje.style.display = 'block';
+
+    const coloresRomanticos = ['#ff0000', '#ff69b4', '#8a2be2', '#9370db', '#ff1493'];
+    // Ajustado a 3.5 segundos exactos
+    const fin = Date.now() + 3500; 
+
+    (function frame() {
+        // Reducimos el particleCount drásticamente, pero mantenemos la velocidad para que llegue arriba
+        confetti({
+            particleCount: 15,  // Antes era 50
+            angle: 90,           
+            spread: 120,         
+            startVelocity: 80,   
+            origin: { x: 0.5, y: 1.2 }, 
+            colors: coloresRomanticos,
+            shapes: ['circle', 'heart']
+        });
+
+        confetti({
+            particleCount: 5,   // Antes era 20
+            angle: 70,
+            spread: 60,
+            startVelocity: 70,
+            origin: { x: 0, y: 1.1 },
+            colors: coloresRomanticos
+        });
+        
+        confetti({
+            particleCount: 5,   // Antes era 20
+            angle: 110,
+            spread: 60,
+            startVelocity: 70,
+            origin: { x: 1, y: 1.1 },
+            colors: coloresRomanticos
+        });
+
+        if (Date.now() < fin) {
+            requestAnimationFrame(frame);
+        } else {
+            mensaje.style.display = 'none';
+        }
+    }());
+}
+
+        function cerrarCarta() { location.reload(); }
+    </script>
+</body>
+</html>
