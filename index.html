@@ -100,25 +100,33 @@
     cont.scrollTop = cont.scrollHeight;
 });
 
-      function abrirCarta() {
+     function abrirCarta() {
     document.getElementById('carta').style.display = 'none';
     document.getElementById('contenido').style.display = 'block';
     const mensaje = document.getElementById('mensaje-sorpresa');
     mensaje.style.display = 'block';
 
     const coloresRomanticos = ['#ff0000', '#ff69b4', '#8a2be2', '#9370db', '#ff1493'];
-    const fin = Date.now() + 4000; // 4 segundos es suficiente
+    const fin = Date.now() + 5000; // Mantenemos 5 segundos para que cubra todo
 
     (function frame() {
-        // Disparo masivo desde toda la parte baja (y: 1)
+        // --- Cañón Izquierdo (hacia arriba y derecha) ---
         confetti({
-            particleCount: 80, // Subimos a 80 partículas por frame para que se llene
-            angle: 90,         // Disparo vertical
-            spread: 180,       // Apertura total para cubrir los costados
-            startVelocity: 60, // Velocidad equilibrada para que suba hasta arriba
-            decay: 0.9,        // Lento para que no se caiga rápido
-            gravity: 0.5,      // Menos gravedad para que flote más
-            origin: { x: 0.5, y: 1.1 }, 
+            particleCount: 15,    // Cantidad equilibrada para no laggear
+            angle: 60,            // Ángulo hacia la esquina superior derecha
+            spread: 90,           // Apertura amplia para cubrir
+            startVelocity: 60,    // ¡Mucha fuerza para que llegue arriba!
+            origin: { x: -0.1, y: 0.8 }, // Sale UN POCO FUERA a la izquierda, por debajo de la mitad
+            colors: coloresRomanticos,
+            shapes: ['circle', 'heart'] // Mantenemos los corazones
+        });
+
+        confetti({
+            particleCount: 15,
+            angle: 120,           // Ángulo hacia la esquina superior izquierda
+            spread: 90,
+            startVelocity: 60,    // ¡Fuerza máxima!
+            origin: { x: 1.1, y: 0.8 }, // Sale UN POCO FUERA a la derecha, por debajo de la mitad
             colors: coloresRomanticos,
             shapes: ['circle', 'heart']
         });
