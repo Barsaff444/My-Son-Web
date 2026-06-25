@@ -107,37 +107,20 @@
     mensaje.style.display = 'block';
 
     const coloresRomanticos = ['#ff0000', '#ff69b4', '#8a2be2', '#9370db', '#ff1493'];
-    // Ajustado a 3.5 segundos exactos
-    const fin = Date.now() + 3500; 
+    const fin = Date.now() + 4000; // 4 segundos es suficiente
 
     (function frame() {
-        // Reducimos el particleCount drásticamente, pero mantenemos la velocidad para que llegue arriba
+        // Disparo masivo desde toda la parte baja (y: 1)
         confetti({
-            particleCount: 15,  // Antes era 50
-            angle: 90,           
-            spread: 120,         
-            startVelocity: 80,   
-            origin: { x: 0.5, y: 1.2 }, 
+            particleCount: 80, // Subimos a 80 partículas por frame para que se llene
+            angle: 90,         // Disparo vertical
+            spread: 180,       // Apertura total para cubrir los costados
+            startVelocity: 60, // Velocidad equilibrada para que suba hasta arriba
+            decay: 0.9,        // Lento para que no se caiga rápido
+            gravity: 0.5,      // Menos gravedad para que flote más
+            origin: { x: 0.5, y: 1.1 }, 
             colors: coloresRomanticos,
             shapes: ['circle', 'heart']
-        });
-
-        confetti({
-            particleCount: 5,   // Antes era 20
-            angle: 70,
-            spread: 60,
-            startVelocity: 70,
-            origin: { x: 0, y: 1.1 },
-            colors: coloresRomanticos
-        });
-        
-        confetti({
-            particleCount: 5,   // Antes era 20
-            angle: 110,
-            spread: 60,
-            startVelocity: 70,
-            origin: { x: 1, y: 1.1 },
-            colors: coloresRomanticos
         });
 
         if (Date.now() < fin) {
@@ -147,7 +130,6 @@
         }
     }());
 }
-
         function cerrarCarta() { location.reload(); }
     </script>
 </body>
